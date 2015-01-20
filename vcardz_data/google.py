@@ -14,7 +14,6 @@ from oauth2client.tools import run
 import xml.etree.ElementTree as ET
 
 from .utils import *
-from .outlook import *
 from .builder import *
 from .vcard import *
 

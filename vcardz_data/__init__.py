@@ -18,6 +18,7 @@ import uuid
 # from .utils import *
 # from .errors import *
 from .parse import Parser as parser
+from .builder import Builder as builder
 from .vcard import *
 
 
