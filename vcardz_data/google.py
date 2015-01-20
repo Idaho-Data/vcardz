@@ -11,16 +11,8 @@ from oauth2client.file import Storage
 from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.tools import run
 
-# import gdata.auth
-# import gdata.gauth
-# import gdata.contacts.data
-# import gdata.contacts.client
-# import gdata.contacts.service
-
 import xml.etree.ElementTree as ET
 
-import kontexa.vcard as vcard
-# from lib.kontexa.vcard import scrub, vCard, Parser, Url, fscrub
 from .utils import *
 from .outlook import *
 from .builder import *
@@ -80,58 +72,58 @@ class GoogleFeed():
         return builder.card
 
 
-class GoogleCSV(OutlookCSV):
+# class GoogleCSV(OutlookCSV):
 
-    def next(self):
-        self.row = next(self.reader)
-        builder = Builder()
+#     def next(self):
+#         self.row = next(self.reader)
+#         builder = Builder()
     
-        builder.FN(self.row['Name'])
-        builder.N([self.row['Family Name'],
-                   self.row['Given Name'],
-                   self.row['Additional Name'],
-                   self.row['Name Prefix'],
-                   self.row['Name Suffix']])
+#         builder.FN(self.row['Name'])
+#         builder.N([self.row['Family Name'],
+#                    self.row['Given Name'],
+#                    self.row['Additional Name'],
+#                    self.row['Name Prefix'],
+#                    self.row['Name Suffix']])
 
-        builder.TEL(self.row['Phone 1 - Value'],
-                    smash(self.row['Phone 1 - Type'], ','))
-        builder.TEL(self.row['Phone 2 - Value'],
-                    smash(self.row['Phone 2 - Type'], ','))
-        builder.TEL(self.row['Phone 3 - Value'],
-                    smash(self.row['Phone 3 - Type'], ','))
+#         builder.TEL(self.row['Phone 1 - Value'],
+#                     smash(self.row['Phone 1 - Type'], ','))
+#         builder.TEL(self.row['Phone 2 - Value'],
+#                     smash(self.row['Phone 2 - Type'], ','))
+#         builder.TEL(self.row['Phone 3 - Value'],
+#                     smash(self.row['Phone 3 - Type'], ','))
 
-        builder.EMAIL(self.row['E-mail 1 - Value'],
-                      smash(self.row['E-mail 1 - Type'], ','))
-        builder.EMAIL(self.row['E-mail 2 - Value'],
-                      smash(self.row['E-mail 2 - Type'], ','))
-        builder.EMAIL(self.row['E-mail 3 - Value'],
-                      smash(self.row['E-mail 3 - Type'], ','))
+#         builder.EMAIL(self.row['E-mail 1 - Value'],
+#                       smash(self.row['E-mail 1 - Type'], ','))
+#         builder.EMAIL(self.row['E-mail 2 - Value'],
+#                       smash(self.row['E-mail 2 - Type'], ','))
+#         builder.EMAIL(self.row['E-mail 3 - Value'],
+#                       smash(self.row['E-mail 3 - Type'], ','))
 
-        builder.ADR([self.row['Address 1 - PO Box'],
-                     '',
-                     self.row['Address 1 - Street'],
-                     self.row['Address 1 - City'],
-                     self.row['Address 1 - Region'],
-                     self.row['Address 1 - Postal Code'],
-                     self.row['Address 1 - Country']],
-                    smash(self.row['Address 1 - Type'], ','))
-        builder.ADR([self.row['Address 2 - PO Box'],
-                     '',
-                     self.row['Address 2 - Street'],
-                     self.row['Address 2 - City'],
-                     self.row['Address 2 - Region'],
-                     self.row['Address 2 - Postal Code'],
-                     self.row['Address 2 - Country']],
-                    smash(self.row['Address 2 - Type'], ','))
+#         builder.ADR([self.row['Address 1 - PO Box'],
+#                      '',
+#                      self.row['Address 1 - Street'],
+#                      self.row['Address 1 - City'],
+#                      self.row['Address 1 - Region'],
+#                      self.row['Address 1 - Postal Code'],
+#                      self.row['Address 1 - Country']],
+#                     smash(self.row['Address 1 - Type'], ','))
+#         builder.ADR([self.row['Address 2 - PO Box'],
+#                      '',
+#                      self.row['Address 2 - Street'],
+#                      self.row['Address 2 - City'],
+#                      self.row['Address 2 - Region'],
+#                      self.row['Address 2 - Postal Code'],
+#                      self.row['Address 2 - Country']],
+#                     smash(self.row['Address 2 - Type'], ','))
 
 
-        builder.URL(self.row['Website 1 - Value'])
-        builder.NOTE(self.row['Notes'])
-        builder.BDAY(self.row['Birthday'])
-        builder.ORG(self.row['Organization 1 - Name'])
-        builder.ROLE(self.row['Organization 1 - Title'])
+#         builder.URL(self.row['Website 1 - Value'])
+#         builder.NOTE(self.row['Notes'])
+#         builder.BDAY(self.row['Birthday'])
+#         builder.ORG(self.row['Organization 1 - Name'])
+#         builder.ROLE(self.row['Organization 1 - Title'])
 
-        return str(builder.card)
+#         return str(builder.card)
 
 
 # class GoogleOAuth2():
