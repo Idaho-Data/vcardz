@@ -19,5 +19,12 @@ setup(name='vcardz-data',
                    'License :: OSI Approved :: GPLv2',
                    'Programming Language :: Python :: 3.4'],
       keywords='vcard development',
-      packages=find_packages(exclude=['contrib', 'docs', 'tests*'])
+      packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
+      install_requires=[
+          'jellyfish>=0.3.3',
+          'networkx>=1.9.1',
+          'six>=1.9.0',
+          'nameparser>=0.3.3',
+          'requests>=2.5.1'
+      ]
   )
