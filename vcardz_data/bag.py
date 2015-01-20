@@ -1,6 +1,5 @@
 import csv
 from functools import reduce
-import jellyfish
 import json
 import re
 import sys

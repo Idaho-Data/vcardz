@@ -1,8 +1,7 @@
 #
 # Kontexa vCard data structure and processing
 #
-
-from bson.objectid import ObjectId
+# from bson.objectid import ObjectId
 import csv
 from functools import reduce
 from email.utils import parseaddr
@@ -16,7 +15,7 @@ import sys
 from six.moves.urllib.parse import urlparse
 import uuid
 
-from python_nameparser.nameparser import HumanName
+from nameparser import HumanName
 
 from .atom import *
 from .bag import *

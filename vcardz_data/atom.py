@@ -1,13 +1,9 @@
 import csv
 from functools import reduce
-import jellyfish
 import json
 import re
 import sys
 import uuid
-
-# from lib.PP4E.Dstruct.Basic.fastset import Set
-# from lib.PP4E.Dstruct.Basic.rset import RSet
 
 from .tag import *
 

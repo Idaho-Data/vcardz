@@ -2,20 +2,17 @@
 # Kontexa vCard data structure and processing
 #
 
-from bson.objectid import ObjectId
 import csv
-from functools import reduce
 from email.utils import parseaddr
-# import igraph
 import jellyfish
 import json
 import networkx as nx
 from networkx.readwrite import json_graph
+import os
 import re
 import sys
 from six.moves.urllib.parse import urlparse
 import uuid
-from python_nameparser.nameparser import HumanName
 
 from .atom import *
 from .bag import *
@@ -128,5 +125,4 @@ class Mailer(Atom):
 class Uid(Atom):
   @staticmethod
   def create():
-    oid = ObjectId()
-    return Uid("UID:kontexa;%s" % str(oid))
+    return Uid("UID:kontexa;%s" % new_id())
