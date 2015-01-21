@@ -9,7 +9,7 @@ with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='vcardz-data',
-      version='0.1.0',
+      version='0.1.1',
       url='https://github.com/seajosh/vcardz-data',
       author='Josh Watts',
       author_email='josh.watts@gmail.com',
