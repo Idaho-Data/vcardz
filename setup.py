@@ -18,7 +18,7 @@ setup(name='vcardz-data',
       license='GPLv2',
       classifiers=['Development Status :: 3 - Alpha',
                    'Intended Audience :: Developers',
-                   'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',  # noqa
+                   'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',# noqa
                    'Programming Language :: Python :: 3.4'],
       keywords='vcard development',
       packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
