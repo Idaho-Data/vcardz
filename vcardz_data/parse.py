@@ -1,17 +1,12 @@
-#
-# Kontexa vCard data structure and processing
-#
-import csv
-from functools import reduce
-from email.utils import parseaddr
-import json
-import re
-import sys
-import uuid
+"""parse class
 
-from .atom import *
-from .bag import *
-from .tag import *
+.. class:: parse
+.. moduleauthor:: Josh Watts <josh.watts@gmail.com>
+"""
+
+import re
+
+from .tag import tag
 from .utils import *
 from .errors import *
 from .vcard import *
@@ -22,11 +17,14 @@ from .data import *
 """
 Parser
 """ 
-class Parser:
+class parser:
 
   _inCard = False
 
-  def __init__(self, stream): 
+  def __init__(self, stream):
+    """constructor
+    :param stream: stream containing vCard text data
+    """
     self._stream = stream
 
   def ADR(self, data):
@@ -112,7 +110,7 @@ class Parser:
         fixed.append(line.strip())
 
     for line in fixed:
-      tag = Tag(line)
+      tag = tag(line)
       try:
         tags[tag.prop](line)
       except KeyError:

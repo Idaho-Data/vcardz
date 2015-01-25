@@ -1,25 +1,14 @@
-# from bson.objectid import ObjectId
-import csv
-from functools import reduce
-from email.utils import parseaddr
-# import jellyfish
-import json
-# import networkx as nx
-# from networkx.readwrite import json_graph
-import re
-import sys
-import uuid
+"""vcardz module.
 
-# from python_nameparser.nameparser import HumanName
+Python module for entity data (i.e. people, organizations) modeled on
+`RFC 6350 <https://tools.ietf.org/html/rfc6350>`.
 
-# from .atom import *
-# from .bag import *
-# from .tag import *
-# from .utils import *
-# from .errors import *
-from .parse import Parser as parser
-from .builder import Builder as builder
-from .vcard import *
+.. moduleauthor:: Josh Watts <josh.watts@gmail.com>
+"""
+
+from .parse import Parser as parser  # noqa
+from .builder import Builder as builder  # noqa
+from .vcard import *  # noqa
 
 
 # def scrub(stream, clean_results=True):
@@ -56,15 +45,15 @@ from .vcard import *
 #       # subway.add_node(str(zombie.uid), zombie.compact())
 #       # subway.add_node(str(buddy.uid), buddy.compact())
 #       # subway.add_node(str(ego.uid), ego.compact())
-      
+
 #       # subway.add_edge(str(zombie.uid), str(ego.uid))
 #       # subway.add_edge(str(buddy.uid), str(ego.uid))
-  
+
 #   result = []
 #   for doc in people:
 #     if doc.clean():
 #       result.append(doc)
-      
+
 #   if True == clean_results:
 #     for doc in people:
 #       if doc.clean():
@@ -76,7 +65,6 @@ from .vcard import *
 #     json_subway = ''
 
 #   return result, json_subway # map
-
 
 
 # def fscrub(stream, clean_results=True):
@@ -100,7 +88,7 @@ from .vcard import *
 #     if not zombie:
 #       zombie = zombies.pop()
 #     buddy = None
-    
+
 #     zombie_features = zombie.features()
 #     for feat in zombie_features:
 #       key = feat[0] + ":" + feat[1]
@@ -123,7 +111,10 @@ from .vcard import *
 #         if key not in n_hash:
 #           for ego in people:
 #             ego_features = ego.features()
-#             for feat2 in list(filter((lambda x: x if x[0] == feat_type else None),ego_features)):
+#            features_list = list(filter((lambda x: x if x[0] == feat_type\
+#                                          else None),
+#                                        ego_features))
+#             for feat2 in features_list:
 #               feat2_val = feat2[1]
 #               if vCard.fmatch(feat_type, feat_val, feat2_val):
 #                 buddy = ego
@@ -135,7 +126,7 @@ from .vcard import *
 #             n_hash[key] = feat_val
 #           else:
 #             break
-          
+
 #         if buddy:
 #           break
 #       # close for feat in zombie features
@@ -151,7 +142,7 @@ from .vcard import *
 #       subway.add_node(str(zombie.uid), zombie.compact())
 #       subway.add_node(str(buddy.uid), buddy.compact())
 #       subway.add_node(str(ego.uid), ego.compact())
-      
+
 #       subway.add_edge(str(zombie.uid), str(ego.uid))
 #       subway.add_edge(str(buddy.uid), str(ego.uid))
 
@@ -172,7 +163,7 @@ from .vcard import *
 #               result.append(doc)
 #   else:
 #       result = people
-      
+
 #   json_subway = json.dumps(json_graph.node_link_data(subway))
 
 #   return result, json_subway

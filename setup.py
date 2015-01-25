@@ -10,9 +10,9 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-setup(name='vcardz-data',
-      version='0.1.1',
-      url='https://github.com/seajosh/vcardz-data',
+setup(name='vcardz',
+      version='0.1.2',
+      url='https://github.com/seajosh/vcardz',
       author='Josh Watts',
       author_email='josh.watts@gmail.com',
       license='GPLv2',

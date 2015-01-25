@@ -1,31 +1,19 @@
-import argparse
-import base64
 import binascii
-import csv
-from functools import reduce
-import io
-import json
 import os
-import pickle
-import re
-import sys
-import uuid
 
-# MongoDB and BSON util
-# from pymongo import Connection
 
 def xstr(s):
-  if s is None:
-    return ''
-  else:
-    return str(s)
+    if s is None:
+        return ''
+    else:
+        return str(s)
 
 def smash(val, delim):
-  tokens = list(filter((lambda x: x), val.split()))
-  return delim.join(tokens)
+    tokens = list(filter((lambda x: x), val.split()))
+    return delim.join(tokens)
 
 def new_id():
-  return binascii.b2a_hex(os.urandom(8)).decode('utf-8')
+    return binascii.b2a_hex(os.urandom(8)).decode('utf-8')
 
 # def log_mongoStream(uuid, field):
 #   conn = Connection(os.environ['MONGOURL'])

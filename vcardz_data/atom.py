@@ -7,7 +7,7 @@ vCard field with a single string value
 """
 
 
-class Atom:
+class atom:
     tag = None
     value = None
 
