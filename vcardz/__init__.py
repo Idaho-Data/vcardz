@@ -6,8 +6,8 @@ Python module for entity data (i.e. people, organizations) modeled on
 .. moduleauthor:: Josh Watts <josh.watts@gmail.com>
 """
 
-from .parse import Parser as parser  # noqa
-from .builder import Builder as builder  # noqa
+from .parse import Parser  # noqa
+from .builder import Builder  # noqa
 from .vcard import *  # noqa
 
 

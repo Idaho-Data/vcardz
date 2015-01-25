@@ -15,12 +15,8 @@ from six.moves.urllib.parse import urlparse  # noqa
 
 from nameparser import HumanName
 
-from .atom import *
-from .bag import *
-from .tag import *
-from .utils import *
-from .errors import *
-from .data import *
+from .data import Name
+from .data import Uid
 
 # FN / required => formatted name
 # * semantics of X.520 Common Name attribute

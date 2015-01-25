@@ -1,14 +1,14 @@
 import re
 
-from .tag import tag
+from .tag import Tag
 
 """
 vCard field with a single string value
 """
 
 
-class atom:
-    tag = None
+class Atom:
+    Tag = None
     value = None
 
     def __init__(self, data):
@@ -17,7 +17,7 @@ class atom:
             self.value = t.replace(r'\,', ',')\
                           .replace(r'\;', ';')\
                           .replace(r'\:', ':')
-            self.tag = tag(data)
+            self.Tag = Tag(data)
         except IndexError:
             self.value = None
 
@@ -34,9 +34,9 @@ class atom:
             return self.value
 
     def __repr__(self):
-        if self.value and self.tag:
-            return "%s:%s" % (repr(self.tag), self.escape())
-        elif self.tag:
-            return repr(self.tag) + ":"
+        if self.value and self.Tag:
+            return "%s:%s" % (repr(self.Tag), self.escape())
+        elif self.Tag:
+            return repr(self.Tag) + ":"
         else:
             return ""

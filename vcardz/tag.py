@@ -1,7 +1,7 @@
 import re
 
 
-class tag:
+class Tag:
     _prop = None
     _attr = None
 
@@ -10,7 +10,7 @@ class tag:
             tag = re.split(r'(?<!\\):', data)[0]
             attrs = tag.split(';')
             self._prop = attrs.pop(0)
-            frags = self.prop.split('.')
+            frags = self._prop.split('.')
             if 1 < len(frags):
                 self.prop = frags[1]
                 self.prop = self.prop.upper()

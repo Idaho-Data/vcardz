@@ -6,18 +6,17 @@
 
 import re
 
-from .tag import tag
+from .tag import Tag
 from .utils import *
 from .errors import *
 from .vcard import *
 from .data import *
 
 
-
 """
 Parser
-""" 
-class parser:
+"""
+class Parser:
 
   _inCard = False
 

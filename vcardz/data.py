@@ -2,127 +2,136 @@
 # Kontexa vCard data structure and processing
 #
 
-import csv
 from email.utils import parseaddr
-import jellyfish
-import json
-import networkx as nx
-from networkx.readwrite import json_graph
-import os
 import re
-import sys
 from six.moves.urllib.parse import urlparse
-import uuid
 
-from .atom import *
-from .bag import *
-from .tag import *
-from .utils import *
-from .errors import *
-
+from .atom import Atom
+from .bag import Bag
+from .utils import new_id
 
 REX_BEGIN = "^BEGIN:VCARD"
 REX_END = "END:VCARD$"
-REX_PHONE_NUMBERS = "\+?1? *\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})(?:[,x ]*)([0-9]*)"
-REX_EMAIL = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+REX_PHONE_NUMBERS = "\+?1? *\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})(?:[,x ]*)([0-9]*)"  # noqa
+REX_EMAIL = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"  # noqa
 
 
 class FormattedName(Atom):
-  pass
+    pass
+
 
 class Name(Bag):
-  pass
+    pass
+
 
 class Nickname(Atom):
-  pass
+    pass
+
 
 class Photo(Atom):
-  pass
+    pass
+
 
 class Birthday(Atom):
-  pass
+    pass
+
 
 class Email(Atom):
-  user = ""
-  domain = ""
+    user = ""
+    domain = ""
 
-  def __init__(self, data):
-    Atom.__init__(self, data)
-    try:
-      self.value = self.value.lower()
-      # temp = re.match(Parser.REX_EMAIL, self.value)
-      # if not temp:
-      #   self.tag = None
-      #   self.value = None
-      #   return
+    def __init__(self, data):
+        Atom.__init__(self, data)
+        try:
+            self.value = self.value.lower()
+            # temp = re.match(Parser.REX_EMAIL, self.value)
+            # if not temp:
+            #   self.tag = None
+            #   self.value = None
+            #   return
 
-      self.value = parseaddr(self.value)[1].lower()
-      frags = self.value.split('@')
-      self.user = frags[0]
-      self.domain = frags[1]
-    except IndexError:
-      pass
+            self.value = parseaddr(self.value)[1].lower()
+            frags = self.value.split('@')
+            self.user = frags[0]
+            self.domain = frags[1]
+        except IndexError:
+            pass
+
 
 class Phone(Atom):
-  def __init__(self, data):
-    temp = re.sub('[^0-9]', '', data);
-    if not temp:
-      raise ValueError
+    def __init__(self, data):
+        temp = re.sub('[^0-9]', '', data)
+        if not temp:
+            raise ValueError
+        Atom.__init__(self, data)
+        match = re.match(REX_PHONE_NUMBERS, self.value)
+        if None != match:
+            phone = match.group(1) + "-" + \
+                match.group(2) + "-" + \
+                match.group(3)
 
-    Atom.__init__(self, data)
-    match = re.match(REX_PHONE_NUMBERS, self.value)
-    if None != match:
-      phone = match.group(1) + "-" + match.group(2) + "-" + match.group(3)
-      if "" != match.group(4):
-        phone += " x" + match.group(4)
-      self.value = phone
+            if "" != match.group(4):
+                phone += " x" + match.group(4)
+            self.value = phone
+
 
 class Address(Bag):
-  pass
+    pass
+
 
 class Label(Bag):
-  pass
+    pass
+
 
 class Organization(Atom):
-  pass
+    pass
+
 
 class Role(Atom):
-  def __init__(self, data):
-    Atom.__init__(self, data)
-    if "- - -" == self.value:
-      self.tag = None
-      self.value = None
+    def __init__(self, data):
+        Atom.__init__(self, data)
+        if "- - -" == self.value:
+            self.tag = None
+            self.value = None
+
 
 class Title(Atom):
-  pass
+    pass
+
 
 class Categories(Bag):
-  pass
+    pass
+
 
 class Note(Atom):
-  pass
+    pass
+
 
 class ProdID(Atom):
-  pass
+    pass
+
 
 class Rev(Atom):
-  pass
+    pass
+
 
 class SortString(Atom):
-  pass
+    pass
+
 
 class Url(Atom):
-  def __init__(self, data):
-    Atom.__init__(self, data)
-    o = urlparse(self.value)
-    if '' == o.scheme:
-      self.value = 'http://' + self.value
-    self.value = self.value.replace('http\://', '')
+    def __init__(self, data):
+        Atom.__init__(self, data)
+        o = urlparse(self.value)
+        if '' == o.scheme:
+            self.value = 'http://' + self.value
+        self.value = self.value.replace('http\://', '')
+
 
 class Mailer(Atom):
-  pass
+    pass
 
 class Uid(Atom):
-  @staticmethod
-  def create():
-    return Uid("UID:kontexa;%s" % new_id())
+    @staticmethod
+    def create():
+        return Uid("UID:kontexa;%s" % new_id())
