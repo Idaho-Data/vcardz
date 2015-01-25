@@ -1,8 +1,9 @@
 """
-.. module:: vcard
+.. module:: vcard.
 
 :platform: Unix, Windows
-:synopsis: Python class for entity data (i.e. people, organizations) modeled on `RFC 6350 <https://tools.ietf.org/html/rfc6350>`
+:synopsis: Python class for entity data (i.e. people, organizations)
+modeled on `RFC 6350 <https://tools.ietf.org/html/rfc6350>`
 
 .. moduleauthor: Josh Watts <josh.watts@gmail.com>
 """
@@ -10,13 +11,21 @@
 from email.utils import parseaddr
 import jellyfish
 import json
+import re
 import sys
 from six.moves.urllib.parse import urlparse  # noqa
 
 from nameparser import HumanName
 
-from .data import Name
-from .data import Uid
+from .data import (REX_EMAIL,
+                   Address,
+                   Email,
+                   Label,
+                   Name,
+                   Phone,
+                   Uid,
+                   Url)
+from .util import xstr
 
 # FN / required => formatted name
 # * semantics of X.520 Common Name attribute
@@ -43,7 +52,8 @@ from .data import Uid
 
 # ADR => delivery address
 # * delimiter => semi-colon
-# * box #; extended address; street address; city (locality); region (state); postal code; country name
+# * box #; extended address; street address; city (locality);
+#   region (state); postal code; country name
 # * TYPEs
 # - dom - domestic
 # - intl - international
@@ -136,7 +146,7 @@ from .data import Uid
 # REV => revision information
 # * single date-time value
 
-# SORT-STRING => family name to be used for national-language-specific 
+# SORT-STRING => family name to be used for national-language-specific
 # sorting of FN and N
 
 # SOUND => audio clip for pronunciation
@@ -163,11 +173,11 @@ from .data import Uid
 
 
 class vCard:
-    """
-    vCard data source based on blah blah blah
-    """
+
+    """vCard data source based on blah blah blah."""
 
     def __init__(self):
+        """constructor."""
         self.adr = set()
         self.birthday = None
         self.email = set()
@@ -189,9 +199,7 @@ class vCard:
 
     @staticmethod
     def fmatch(feature, val1, val2):
-        """
-        run the fswoosh algorithm
-        """
+        """run the fswoosh algorithm."""
         def fn():
             if val1 and val2:
                 score = jellyfish.jaro_winkler(val1.lower(), val2.lower())
@@ -202,7 +210,9 @@ class vCard:
         def n():
             tokens1 = val1.split(';')
             tokens2 = val2.split(';')
-            cross = [jellyfish.jaro_winkler(str(x), str(y)) for x in tokens1 for y in tokens2]
+            cross = [jellyfish.jaro_winkler(str(x), str(y))
+                     for x in tokens1
+                     for y in tokens2]
             nTokens = list(filter((lambda x: 1 if x > .95 else 0), cross))
             return True if 1 < len(nTokens) else False
 
@@ -213,9 +223,7 @@ class vCard:
         return matches[feature]()
 
     def match(self, other):
-        """
-        match
-        """
+        """match."""
         if not other:
             return False
 
@@ -253,9 +261,7 @@ class vCard:
             return False
 
     def merge(self, other):
-        """
-        merge
-        """
+        """merge."""
         max = (lambda x, y:  y if x and y and len(str(x)) < len(str(y)) else x)
         result = vCard()
 
@@ -295,15 +301,11 @@ class vCard:
 
     @staticmethod
     def escape(val):
-        """
-        escape
-        """
+        """escape."""
         return val.replace(',', r'\,').replace(';', r'\;').replace(':', r'\:')
 
     def dedupe(self, docSet, tag, parser):
-        """
-        dedupe
-        """
+        """dedupe."""
         try:
             bag = {}
             for doc in docSet:
@@ -317,7 +319,7 @@ class vCard:
 
             result = set()
             for key in bag:
-                if issubclass(parser, Bag):
+                if issubclass(parser, bag):
                     data = "%s%s:%s" % (tag,
                                         ';TYPE=' + ','.join(bag[key])
                                         if bag[key] else '',
@@ -326,7 +328,7 @@ class vCard:
                     data = "%s%s:%s" % (tag,
                                         ';TYPE=' + ','.join(bag[key])
                                         if bag[key] else '',
-                                        vcard.escape(key))
+                                        vCard.escape(key))
 
                 result.add(parser(data))
             return result
@@ -335,15 +337,11 @@ class vCard:
             raise
 
     def cleanName(self):
-        """
-        cleanName
-        """
+        """cleanName."""
         pass
 
     def clean(self):
-        """
-        clean
-        """
+        """clean."""
         # check for email-only contact
         if (not self.fn or not self.fn.value) \
            and len(self.n) == 0 \
@@ -375,7 +373,9 @@ class vCard:
            and len(self.adr) == 0:
             return None
 
-        hits = [x for x in self.email if None == re.search(r"reply.", x.domain)]
+        hits = [x
+                for x in self.email
+                if None == re.search(r"reply.", x.domain)]
         self.email = set(hits)
         if 0 == len(self.email) \
            and len(self.phone) == 0 \
@@ -389,7 +389,8 @@ class vCard:
         self.url = self.dedupe(self.url, "URL", Url)
 
         if self.fn and self.n:
-            test = ("%s %s" % (xstr(self.n.value[1]), xstr(self.n.value[0]))).lstrip()
+            test = ("%s %s" % (xstr(self.n.value[1]),
+                               xstr(self.n.value[0]))).lstrip()
             if "" != test:
                 testName = HumanName(test)
                 testName.capitalize()
@@ -408,9 +409,7 @@ class vCard:
         return self
 
     def compact(self):
-        """
-        compact
-        """
+        """compact."""
         if not self.clean():
             return {}
 
@@ -420,17 +419,22 @@ class vCard:
             if not val:
                 continue
             if set == type(val):
-                data[att] = [{"val": x.value, "type": [y for y in x.tag["type"]]} for x in val]
+                data[att] = [{"val": x.value,
+                              "type": [y
+                                       for y
+                                       in x.tag["type"]]}
+                             for x in val]
             else:
-                data[att] = {"val": str(val), "type": [y for y in val.tag["type"] if val.tag["type"]]}
+                data[att] = {"val": str(val),
+                             "type": [y
+                                      for y in val.tag["type"]
+                                      if val.tag["type"]]}
         return data
 
     def features(self):
-        """
-        features
-        """
+        """features."""
         data = []
-        for attr in ['email', 'fn', 'n']: #['email','phone','fn','n']:
+        for attr in ['email', 'fn', 'n']:  # ['email','phone','fn','n']:
             val = self.__dict__[attr]
             if not val:
                 continue
@@ -449,15 +453,15 @@ class vCard:
         return data
 
     def to_json(self):
-        """
-        to_json
-        """
+        """to_json."""
         return json.dumps(self.compact())
 
     def print_json(self):
+        """print_json."""
         return json.dumps(self.compact(), indent=4)
 
     def __str__(self):
+        """__str__."""
         card = []
         card.append("BEGIN:VCARD")
         card.append("VERSION:3.0")
