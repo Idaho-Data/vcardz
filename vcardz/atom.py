@@ -8,7 +8,7 @@ vCard field with a single string value
 
 
 class Atom:
-    Tag = None
+    tag = None
     value = None
 
     def __init__(self, data):
@@ -17,7 +17,7 @@ class Atom:
             self.value = t.replace(r'\,', ',')\
                           .replace(r'\;', ';')\
                           .replace(r'\:', ':')
-            self.Tag = Tag(data)
+            self.tag = Tag(data)
         except IndexError:
             self.value = None
 
@@ -34,9 +34,9 @@ class Atom:
             return self.value
 
     def __repr__(self):
-        if self.value and self.Tag:
-            return "%s:%s" % (repr(self.Tag), self.escape())
-        elif self.Tag:
-            return repr(self.Tag) + ":"
+        if self.value and self.tag:
+            return "%s:%s" % (repr(self.tag), self.escape())
+        elif self.tag:
+            return repr(self.tag) + ":"
         else:
             return ""

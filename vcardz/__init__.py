@@ -1,8 +1,9 @@
-"""vcardz module.
+# Copyright 2015 Josh Watts
+# Licensed under GPLv2, see LICENSE file for details
+"""Python module for entity data (i.e. people, organizations) modeled
+on `RFC 6350`_
 
-Python module for entity data (i.e. people, organizations) modeled on
-`RFC 6350 <https://tools.ietf.org/html/rfc6350>`.
-
+.. _RFC 6350: https://tools.ietf.org/html/rfc6350
 .. moduleauthor:: Josh Watts <josh.watts@gmail.com>
 """
 

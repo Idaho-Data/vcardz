@@ -109,7 +109,7 @@ class Parser:
         fixed.append(line.strip())
 
     for line in fixed:
-      tag = tag(line)
+      tag = Tag(line)
       try:
         tags[tag.prop](line)
       except KeyError:

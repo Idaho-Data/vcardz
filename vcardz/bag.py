@@ -6,13 +6,13 @@ class Bag:
 
     Holds tokenized values such as ADDR.
     """
-    Tag = None
+    tag = None
     value = None
     _tokens = None
 
     def __init__(self, data):
         try:
-            self.Tag = Tag(data)
+            self.tag = Tag(data)
             tokens = [x.lower() for x in data.split(':')[1].split(';')]
             self._tokens = set(filter((lambda x: x if '' != x else None),
                                       tokens))
@@ -48,10 +48,10 @@ class Bag:
             return ';'.join(self.value)
 
     def __repr__(self):
-        if self.value and self.Tag:
-            return "%s:%s" % (repr(self.Tag),
+        if self.value and self.tag:
+            return "%s:%s" % (repr(self.tag),
                               ';'.join(self.value))
-        elif self.Tag:
-            return repr(self.Tag) + ":"
+        elif self.tag:
+            return repr(self.tag) + ":"
         else:
             return ""

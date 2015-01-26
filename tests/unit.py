@@ -2,7 +2,7 @@ import json
 from six import StringIO
 import unittest
 
-from vcardz_data import parser
+from vcardz import Parser
 
 
 card = """
@@ -37,7 +37,7 @@ class TestVcard(unittest.TestCase):
 
     def test_sanity(self):
         stream = StringIO(card)
-        engine = parser(stream)
+        engine = Parser(stream)
         test_card = next(engine)
 
         self.assertEqual(str(test_card.fn),'John Doe')
@@ -59,7 +59,7 @@ class TestVcard(unittest.TestCase):
 
     def test_json(self):
         stream = StringIO(card)
-        engine = parser(stream)
+        engine = Parser(stream)
         test_card = next(engine)
         
         json_payload = test_card.to_json()

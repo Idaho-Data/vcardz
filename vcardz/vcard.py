@@ -1,6 +1,4 @@
 """
-.. module:: vcard.
-
 :platform: Unix, Windows
 :synopsis: Python class for entity data (i.e. people, organizations)
 modeled on `RFC 6350 <https://tools.ietf.org/html/rfc6350>`
@@ -16,7 +14,7 @@ import sys
 from six.moves.urllib.parse import urlparse  # noqa
 
 from nameparser import HumanName
-
+from .bag import Bag
 from .data import (REX_EMAIL,
                    Address,
                    Email,
@@ -25,7 +23,7 @@ from .data import (REX_EMAIL,
                    Phone,
                    Uid,
                    Url)
-from .util import xstr
+from .utils import xstr
 
 # FN / required => formatted name
 # * semantics of X.520 Common Name attribute
@@ -319,7 +317,7 @@ class vCard:
 
             result = set()
             for key in bag:
-                if issubclass(parser, bag):
+                if issubclass(parser, Bag):
                     data = "%s%s:%s" % (tag,
                                         ';TYPE=' + ','.join(bag[key])
                                         if bag[key] else '',
