@@ -1,21 +1,10 @@
-import csv
-import io
-import httplib2
-import jellyfish
-import re
 from six import StringIO
-import sys
-import uuid
-
-from oauth2client.file import Storage
-from oauth2client.client import OAuth2WebServerFlow
-from oauth2client.tools import run
 
 import xml.etree.ElementTree as ET
 
-from .utils import *
-from .builder import *
-from .vcard import *
+from .builder import (Builder, Builder2)
+from .outlook import OutlookCSV
+from .utils import smash
 
 
 class GoogleFeed():
