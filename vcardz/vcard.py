@@ -24,6 +24,7 @@ from .data import (REX_EMAIL,
                    Uid,
                    Url)
 from .utils import xstr
+from .log import get_logger
 
 # FN / required => formatted name
 # * semantics of X.520 Common Name attribute
@@ -226,15 +227,30 @@ class vCard:
             return False
 
         if self.fn and other.fn:
-            n = jellyfish.jaro_winkler(str(self.fn).lower(),
+            name = jellyfish.jaro_winkler(str(self.fn).lower(),
                                        str(other.fn).lower())
-            n = True if n > .95 else False
+            name = True if name > .95 else False
         else:
-            n = False
+            name = False
 
+        # score first name
+        self_ntokens = list(self.n.tokens)
+        other_ntokens = list(other.n.tokens)
+        try:
+            self_fname = self_ntokens[1]
+            other_fname = other_ntokens[1]
+            # remove fname from tokens
+            self_ntokens.remove(self_fname)
+            other_ntokens.remove(other_fname)
+            fname_score = jellyfish.jaro_winkler(self_fname, other_fname)
+        except IndexError:
+            fname_score = 0
+        # score the rest of the name tokens
         cross = [jellyfish.jaro_winkler(str(x), str(y))
-                 for x in self.n.tokens for y in other.n.tokens]
+                 for x in self_ntokens for y in other_ntokens]
         nTokens = list(filter((lambda x: 1 if x > .95 else 0), cross))
+        # generate name score
+        name_score = (fname_score > .95) and (0 < len(nTokens))
 
         # cross = [jellyfish.jaro_winkler(str(x), str(y))
         #          for x in self.email for y in other.email]
@@ -246,11 +262,11 @@ class vCard:
                  for y in other.email]
         emailUserHits = list(filter((lambda x: 1 if x > .95 else 0), cross))
 
-        cross = [str(x) == str(y) for x in self.phone for y in other.phone]
+        cross = [str(x) == str(y) and x.tag == y.tag for x in self.phone for y in other.phone]
         phoneHits = list(filter((lambda x: 1 if True == x else 0), cross))
 
-        if n or \
-           1 < len(nTokens) or \
+        if name or \
+           name_score or \
            0 < len(emailHits) or \
            (1 < len(nTokens) and 0 < len(emailUserHits)) or \
            0 < len(phoneHits):
@@ -366,10 +382,13 @@ class vCard:
                 if 0 < len(list(filter((lambda x: True if .94 < x else False), cross))) \
                 else False
 
-        if (users or emails) \
-           and len(self.phone) == 0 \
-           and len(self.adr) == 0:
-            return None
+        try:
+            if (users or emails) \
+               and len(self.phone) == 0 \
+               and len(self.adr) == 0:
+                return None
+        except UnboundLocalError:
+            return self
 
         hits = [x
                 for x in self.email
@@ -432,21 +451,17 @@ class vCard:
     def features(self):
         """features."""
         data = []
-        for attr in ['email', 'fn', 'n']:  # ['email','phone','fn','n']:
+        for attr in ['email', 'fn', 'n', 'phone']:  # ['email','phone','fn','n']:
             val = self.__dict__[attr]
             if not val:
                 continue
             if set == type(val):
-                temp = [[attr, str(x)] for x in val]
-                # temp = list(filter((lambda x: x if x[1] else None), temp))
+                temp = [[attr, '{}:{}'.format(','.join(x.tag.types), str(x))] for x in val]
                 data.extend(temp)
             else:
                 if str(val):
-                    data.append([attr, str(val)])
-
-            for x in self.phone:
-                if x.tag and 'work' not in x.tag['type']:
-                    data.append(['phone', str(x)])
+                    temp = str(val)
+                    data.append([attr, temp])
 
         return data
 

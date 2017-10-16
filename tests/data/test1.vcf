@@ -1,0 +1,32 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Arnold Valent
+N:Valent;Arnold;;;
+EMAIL;TYPE=INTERNET:arnold.valent@abcxyz.com
+TEL;TYPE=CELL:(404) 555-1234
+TEL;TYPE=WORK:(770) 555-6789 x722
+TEL;TYPE=WORK;TYPE=FAX:(678) 555-1234
+ADR;TYPE=WORK:;;123 Main\nSuite 200;Marietta;GA;30062;United
+  States of America
+ORG:ABCXYZ Inc.
+TITLE:President / CEO
+item1.URL:http\://www.abcxyz.com/
+item1.X-ABLabel:_$!<HomePage>!$_
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+FN:Mark Hollis
+N:Hollis;Mark;;;
+EMAIL;TYPE=INTERNET:mark.hollis@abcxyz.com
+TEL;TYPE=CELL:(770) 555-9182
+TEL;TYPE=WORK:(770) 555-6789 x758
+TEL;TYPE=WORK;TYPE=FAX:(678) 555-1234
+ORG:ABCXYZ Inc.
+TITLE:VP Sales
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+FN:Arnold Valent
+N:Valent;Arnold;;;
+EMAIL;TYPE=INTERNET:arnold@abcxyz.com
+END:VCARD

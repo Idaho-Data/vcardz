@@ -1,5 +1,7 @@
 import re
 
+from itertools import chain
+
 
 class Tag:
     prop = None
@@ -30,17 +32,25 @@ class Tag:
         except IndexError:
             return
 
+
+    @property
+    def types(self):
+        return list(chain.from_iterable([self.attr[x] for x in self.attr]))
+
+
     def __getitem__(self, key):
         try:
             return self.attr[key.upper()]
         except:
             return []
 
+
     def __str__(self):
         if None == self.prop:
             return ""
         else:
             return self.prop
+
 
     def __repr__(self):
         if None == self.prop:
