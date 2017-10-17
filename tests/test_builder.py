@@ -1,17 +1,16 @@
-import json
-from six import StringIO
 import unittest
 
-from vcardz_data import builder
+from vcardz import Builder
+
 
 class TestBuilder(unittest.TestCase):
-    
+
     def test_builder(self):
-        carpenter = builder()
+        carpenter = Builder()
         carpenter.FN('John Doe')
-        
+
         test_card = carpenter.card
-        self.assertEqual(str(test_card.fn),'John Doe')
+        self.assertEqual(str(test_card.fn), 'John Doe')
 
 if __name__ == '__main__':
     unittest.main()

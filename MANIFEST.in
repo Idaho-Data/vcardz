@@ -1,0 +1,5 @@
+include DESCRIPTION.rst
+include LICENSE
+include README.md
+include runtime.txt
+recursive-include tests

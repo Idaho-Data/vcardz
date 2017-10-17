@@ -2,7 +2,7 @@ import json
 from six import StringIO
 import unittest
 
-from vcardz_data import parser
+from vcardz import Parser
 
 
 card = """
@@ -33,14 +33,15 @@ X-ABUID:5AD380FD-B2DE-4261-BA99-DE1D1DB52FBE\:ABPerson
 END:VCARD
 """
 
+
 class TestVcard(unittest.TestCase):
 
     def test_sanity(self):
         stream = StringIO(card)
-        engine = parser(stream)
+        engine = Parser(stream)
         test_card = next(engine)
 
-        self.assertEqual(str(test_card.fn),'John Doe')
+        self.assertEqual(str(test_card.fn), 'John Doe')
         self.assertEqual(str(test_card.n), 'Doe;John;;;')
         self.assertEqual(str(test_card.org), 'Example.com Inc.;')
 
@@ -59,9 +60,9 @@ class TestVcard(unittest.TestCase):
 
     def test_json(self):
         stream = StringIO(card)
-        engine = parser(stream)
+        engine = Parser(stream)
         test_card = next(engine)
-        
+
         json_payload = test_card.to_json()
         payload = json.loads(json_payload)
         self.assertEqual(payload['fn']['val'], 'John Doe')
@@ -69,8 +70,8 @@ class TestVcard(unittest.TestCase):
         self.assertEqual(payload['org']['val'], 'Example.com Inc.;')
 
         temp_emails = [x['val'] for x in payload['email']]
-        self.assertIn('johndoe@example.org', temp_emails)        
-        
+        self.assertIn('johndoe@example.org', temp_emails)
+
         temp_tel = [x['val'] for x in payload['phone']]
         self.assertIn('617-555-1234', temp_tel)
         self.assertIn('781-555-1212', temp_tel)
@@ -79,7 +80,7 @@ class TestVcard(unittest.TestCase):
 
         temp_adr = [';'.join(x['val']) for x in payload['adr']]
         self.assertIn(';;3 Acacia Avenue;Hoemtown;MA;02222;USA', temp_adr)
-        self.assertIn(';;2 Enterprise Avenue;Worktown;NY;01111;USA', temp_adr)        
+        self.assertIn(';;2 Enterprise Avenue;Worktown;NY;01111;USA', temp_adr)
 
 
 if __name__ == '__main__':
