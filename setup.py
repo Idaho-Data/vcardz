@@ -11,10 +11,13 @@ with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(name='vcardz-data',
-      version='0.9.0',
+      version='0.9.2',
       url='https://github.com/IdahoDataEngineers/vcardz',
+      download_url='https://github.com/IdahoDataEngineers/vcardz/archive/v0.9.2.tar.gz',
       author='Idaho Data Engineers',
       author_email='info@idahodata.io',
+      description='Python 3 vCard and deduplication',
+      long_description=long_description,
       license='GPLv2',
       classifiers=['Development Status :: 4 - Beta',
                    'Intended Audience :: Developers',

@@ -1,10 +1,9 @@
 vcardz
 ==========
 
-vcardz is a Python 3 library for managing
-vCard data deduplication / entity resolution based on Swoosh.
+vcardz is a Python 3 library for managing vCard data and deduplication / entity resolution based on Swoosh.
 
-:Project Home
+Project Home
   `https://github.com/IdahoDataEngineers/vcardz <https://github.com/IdahoDataEngineers/vcardz>`_
 
 
