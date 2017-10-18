@@ -3,7 +3,7 @@
 :synopsis: Python class for entity data (i.e. people, organizations)
 modeled on `RFC 6350 <https://tools.ietf.org/html/rfc6350>`
 
-.. moduleauthor: Josh Watts <josh.watts@gmail.com>
+.. moduleauthor: Josh Watts <josh.watts@idahodata.io>
 """
 
 from email.utils import parseaddr
