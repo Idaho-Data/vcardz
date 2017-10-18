@@ -1,8 +1,8 @@
 # vcardz
 
 vcardz is a Python 3 library for managing
-[vCard data][https://tools.ietf.org/html/rfc6350 "RFC 6350 :: vCard Format Specification"] and
-deduplication / entity resolution based [Swoosh][http://ilpubs.stanford.edu:8090/708/1/2005-5.pdf "Swoosh: A Generic Approch to Entity Resolution"]
+[vCard data](https://tools.ietf.org/html/rfc6350 "RFC 6350 :: vCard Format Specification") and
+deduplication / entity resolution based [Swoosh](http://ilpubs.stanford.edu:8090/708/1/2005-5.pdf "Swoosh: A Generic Approch to Entity Resolution")
 
 ## Howto
 
