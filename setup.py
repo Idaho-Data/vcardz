@@ -16,7 +16,7 @@ setup(name='vcardz',
       author='Idaho Data Engineers',
       author_email='info@idahodata.io',
       license='GPLv2',
-      classifiers=['Development Status :: 3 - Alpha',
+      classifiers=['Development Status :: 4 - Beta',
                    'Intended Audience :: Developers',
                    'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',  # noqa
                    'Programming Language :: Python :: 3.6'],
